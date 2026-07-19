@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  upscaler:
+    build: .
+    container_name: ai_image_upscaler
+    ports:
+      - "8000:8000"
+    environment:
+      - MODEL_PATH=weights/RealESRGAN_x4plus.pth
+      - OUTPUT_DIRECTORY=output
+      - DEVICE=cpu # Can be changed to 'cuda' on host systems equipped with nvidia-docker runtime
+      - LOG_LEVEL=INFO
+      - PORT=8000
+    volumes:
+      - ./weights:/app/weights
+      - ./output:/app/output
+    restart: unless-stopped
